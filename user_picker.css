@@ -1,0 +1,59 @@
+:root {
+    --bg-color: whitesmoke;
+    --color: #111;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+a, body, button, div, footer, h1, h2, h3, h4, h5, h6, input, ul, li, nav, output, p, section, span {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+    background-color: var(bg-color);
+    color: var(color);
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    /* border: 1px solid; */
+}
+
+a, button, input, span {
+    display: inline-block;
+}
+
+a {
+    cursor: pointer;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.info-bar {
+    position: fixed;
+    top: 50%;
+    width: 100%;
+    padding: 16px;
+    background-color: /*var(--color)*/
+    rgba(17, 17, 17, .85);
+    color: var(--bg-color);
+    opacity: 1;
+    transform: translateY(-50%);
+    transition: opacity .05s linear;
+}
+
+.info-bar .message {
+    display: inline-block;
+    height: 100%;
+    color: white;
+}
