@@ -42,12 +42,13 @@ a {
 .info-bar {
     position: fixed;
     top: 50%;
+    z-index: -1;
     width: 100%;
     padding: 16px;
     background-color: /*var(--color)*/
     rgba(17, 17, 17, .85);
     color: var(--bg-color);
-    opacity: 1;
+    opacity: 0;
     transform: translateY(-50%);
     transition: opacity .05s linear;
 }
