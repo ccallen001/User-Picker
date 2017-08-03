@@ -34,10 +34,11 @@ function generateUsersArrHTML(j) {
     /* build the html version of the global users array */
     let i = 0;
     while (i < global_l) {
-        global_usersArrHTML[i] = `<li>${j[i].fullName}, <a onclick="eMsg('${j[i].email}')">${j[i].email}</a>, ${j[i].accountName}, <a onclick="aMsg('${j[i].accountName}')">${j[i].accountNumber}</a></li>`;
+        global_usersArrHTML[i] = `<li>${j[i].fullName}, <a onclick="m('${j[i].email}')">${j[i].email}</a>, ${j[i].accountName}, <a onclick="m('${j[i].accountName}')">${j[i].accountNumber}</a></li>`;
         i++;
     }
 
     /* execution flows to render_users.js */
-    renderAllUsers();
+    if (renderAllUsers) renderAllUsers();
+    else console.error('renderAllUsers not defined yet')
 }

@@ -8,98 +8,62 @@ global_ld;
 */
 
 /* dom vars */
-const filterInp = document.getElementsByClassName('filter-inp')[0],
-    // filterBtn = document.getElementsByClassName('filter-btn')[0],
-    ulRender = document.getElementsByClassName('users-render')[0],
-    infoBar = document.getElementsByClassName('info-bar')[0],
-    infoBarMessage = document.querySelector('.message');
-
-function enableFilterUI() {
-    filterInp.disabled = false;
-    // filterBtn.disabled = false;
-}
-
-function disableFilterUI() {
-    filterInp.disabled = true;
-    // filterBtn.disabled = true;
-}
-disableFilterUI();
+const input = document.querySelector('.left input'),
+    button = document.querySelector('.left button'),
+    usersList = document.getElementsByClassName('users-list')[0],
+    message = document.getElementsByClassName('message')[0];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* functions to control messaging, especially when clicking on emails/accounts */
+/* functions to control messaging */
 
-infoBar.message = msg => {
-    infoBar.style.zIndex = 1;
-    infoBar.style.opacity = 1;
-    infoBarMessage.textContent = msg;
+message.write = msg => {
+    message.style.zIndex = 1;
+    message.style.opacity = 1;
+    message.textContent = msg;
 }
 
-infoBar.clear = () => {
-    infoBar.style.opacity = 0;
-    infoBar.style.zIndex = -1;
+message.clear = timeout => {
+    setTimeout(() => {
+        message.style.zIndex = -1;
+        message.style.opacity = 0;
+    }, timeout || 1500);
 };
 
-function eMsg(email) {
-    infoBar.message(`You clicked email ${email}`);
-    setTimeout(() => { infoBar.clear(); }, 1000);
-}
-
-function aMsg(acctName) {
-    infoBar.message(`You clicked account name ${acctName}`);
-    setTimeout(() => { infoBar.clear(); }, 1000);
+function m(data) {
+    let type = /@/.test(data) ? 'email' : 'account';
+    message.write(`You clicked ${type} ${data}`);
+    message.clear();
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /* function to render all users in html */
 
-let loadedOnce = false;
-
 function renderAllUsers() {
-    disableFilterUI();
-
-    infoBar.message('Loading...');
-
     /* load a chunk, then the rest */
-    ulRender.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
+    usersList.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
 
-    /* large dump to dom; async/setTimeout seems to increase speed of renders */
+    /* large dump to dom; async/setTimeout seems to increase speed of render */
     setTimeout(() => {
-        ulRender.innerHTML += global_usersArrHTML.slice(global_ld).join('');
-
-        /* only display 'Users loaded!' first time */
-        if (!loadedOnce) {
-            infoBar.message('Users loaded!');
-            setTimeout(() => { infoBar.clear(); }, 1000);
-
-            loadedOnce = true;
-        } else {
-            infoBar.clear();
-        }
-
-        enableFilterUI();
-
-        filterInp.focus();
+        usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
     });
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* filtering */
+/* function to control search logic */
 
-filterInp.addEventListener('keyup', filterUsers);
-// filterBtn.addEventListener('click', filterUsers);
+button.addEventListener('click', filterUsers);
 
 function filterUsers() {
-    if (filterInp.value === '') {
+    if (input.value === '') {
         renderAllUsers();
     } else {
-        if (filterInp.value.length === 1) {
-            // infoBar.message('Loading...');
-        }
         try {
-            let patterns = filterInp.value.split(' '),
+
+            /* pattern matching */
+            let patterns = input.value.split(' '),
                 pattern,
                 allPatsMatch,
                 matches = [],
@@ -126,16 +90,22 @@ function filterUsers() {
                 }
             }
 
-            mld = matches.length / 40;
+            mld = matches.length / 10;
 
-            /* chunk */
-            ulRender.innerHTML = matches.slice(0, mld).join('');
+            /* load a chunk, then the rest */
+            usersList.innerHTML = matches.slice(0, mld).join('');
 
-            /* rest of it */
+            /* large dump to dom; async/setTimeout seems to increase speed of render */
             setTimeout(() => {
-                ulRender.innerHTML = matches.slice(mld).join('');
-                infoBar.clear();
+                usersList.innerHTML += matches.slice(mld).join('');
             });
+
+            if (matches.length === 0) {
+                renderAllUsers();
+                message.write('No matches... :(');
+                message.clear();
+            }
+
         } catch (err) {
             console.error(err);
         }
