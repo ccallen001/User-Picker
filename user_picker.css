@@ -14,14 +14,17 @@ body {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-a, body, button, div, footer, h1, h2, h3, h4, h5, h6, input, ul, li, nav, output, p, section, span {
+
+/* standardization */
+
+a, body, button, div, footer, h1, h2, h3, h4, h5, h6, label, input, ul, li, nav, output, p, section, span {
     display: block;
     position: relative;
     box-sizing: border-box;
     margin: 0 auto;
     padding: 0;
-    background-color: var(bg-color);
-    color: var(color);
+    background-color: var(--bg-color);
+    color: var(--color);
     text-align: center;
     text-decoration: none;
     outline: none;
@@ -39,22 +42,84 @@ a {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+.ui {
+    position: fixed;
+    top: 32px;
+    left: 50%;
+    z-index: 1000;
+    padding: 26px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, .95);
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(17, 17, 17, .5);
+    transform: translateX(-50%);
+}
+
+.ui h1, .ui label, .ui input, .ui button {
+    background-color: transparent;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.title {
+    margin-bottom: 12px;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.filter-label {
+    margin-bottom: 8px;
+}
+
+.filter-inp {
+    padding: 4px;
+    width: 256px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.users-render {
+    padding-top: 206px;
+}
+
+.users-render li {
+    padding: 4px;
+}
+
+.users-render li a:hover {
+    color: white;
+    text-shadow: 0 1px 0 var(--color), 0 0 4px var(--color);
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 .info-bar {
     position: fixed;
     top: 50%;
+    left: 50%;
     z-index: -1;
-    width: 100%;
-    padding: 16px;
-    background-color: /*var(--color)*/
-    rgba(17, 17, 17, .85);
+    width: 40vw;
+    padding: 28px;
+    padding-top: 32px;
+    background-color: rgba(17, 17, 17, .85);
     color: var(--bg-color);
     opacity: 0;
-    transform: translateY(-50%);
-    transition: opacity .05s linear;
+    border-radius: 16px;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 .info-bar .message {
     display: inline-block;
     height: 100%;
+    background-color: transparent;
     color: white;
+    font-weight: bold;
 }

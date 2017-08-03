@@ -1,5 +1,5 @@
 /*
-// set in fetch_users.js
+// global vars set in fetch_users.js
 
 global_usersArr;
 global_usersArrHTML;
@@ -25,9 +25,6 @@ function disableFilterUI() {
 }
 disableFilterUI();
 
-/* will hold all user dom nodes once they're rendered */
-// let usersNodes;
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /* functions to control messaging, especially when clicking on emails/accounts */
@@ -35,36 +32,27 @@ disableFilterUI();
 infoBar.message = msg => {
     infoBar.style.zIndex = 1;
     infoBar.style.opacity = 1;
-    // infoBarMessage.style.transition = 'opacity .01s linear';
-    // infoBarMessage.style.opacity = 1;
     infoBarMessage.textContent = msg;
 }
 
-infoBar.clear = (timeout, fadeTime) => {
-    setTimeout(() => {
-        // infoBarMessage.style.transition = `opacity ${fadeTime}ms linear`;
-        // infoBarMessage.style.opacity = 0;
-        setTimeout(() => {
-            // infoBar.message(null);
-            infoBar.style.zIndex = -1;
-            infoBar.style.opacity = 0;
-        }, fadeTime || 0);
-    }, timeout || 0);
+infoBar.clear = () => {
+    infoBar.style.opacity = 0;
+    infoBar.style.zIndex = -1;
 };
 
 function eMsg(email) {
     infoBar.message(`You clicked email ${email}`);
-    infoBar.clear(500, 500);
+    setTimeout(() => { infoBar.clear(); }, 1000);
 }
 
 function aMsg(acctName) {
     infoBar.message(`You clicked account name ${acctName}`);
-    infoBar.clear(500, 500);
+    setTimeout(() => { infoBar.clear(); }, 1000);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* function to render all users in html and get nodes */
+/* function to render all users in html */
 
 let loadedOnce = false;
 
@@ -83,7 +71,7 @@ function renderAllUsers() {
         /* only display 'Users loaded!' first time */
         if (!loadedOnce) {
             infoBar.message('Users loaded!');
-            infoBar.clear(0, 250);
+            setTimeout(() => { infoBar.clear(); }, 1000);
 
             loadedOnce = true;
         } else {
@@ -93,13 +81,12 @@ function renderAllUsers() {
         enableFilterUI();
 
         filterInp.focus();
-
-        /* grab all the users in the html (nodes) */
-        // usersNodes = document.getElementsByClassName('u');
     });
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/* filtering */
 
 filterInp.addEventListener('keyup', filterUsers);
 // filterBtn.addEventListener('click', filterUsers);
@@ -109,7 +96,7 @@ function filterUsers() {
         renderAllUsers();
     } else {
         if (filterInp.value.length === 1) {
-            infoBar.message('Loading...');
+            // infoBar.message('Loading...');
         }
         try {
             let patterns = filterInp.value.split(' '),
@@ -123,10 +110,7 @@ function filterUsers() {
                 pattern = RegExp(patterns[0], 'i');
 
                 while (i < global_l) {
-                    // usersNodes[i].style.display = pattern.test(usersNodes[i].dataset.d) ? 'block' : 'none';
-
                     if (pattern.test(global_usersArr[i].dataString)) matches.push(global_usersArrHTML[i]);
-
                     i++;
                 }
             } else {
@@ -134,22 +118,15 @@ function filterUsers() {
 
                 while (i < global_l) {
                     allPatsMatch = true;
-
                     patterns.forEach(pat => {
-                        // if (!pat.test(usersNodes[i].dataset.d)) allPatsMatch = false;
-
                         if (!pat.test(global_usersArr[i].dataString)) allPatsMatch = false;
                     });
-
-                    // usersNodes[i].style.display = allPatsMatch ? 'block' : 'none';
-
                     if (allPatsMatch) matches.push(global_usersArrHTML[i]);
-
                     i++;
                 }
             }
 
-            mld = matches.length / 10;
+            mld = matches.length / 40;
 
             /* chunk */
             ulRender.innerHTML = matches.slice(0, mld).join('');
