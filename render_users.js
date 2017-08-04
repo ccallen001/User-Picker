@@ -43,12 +43,14 @@ function m(data) {
 function renderAllUsers() {
     /* load a chunk, then the rest */
     usersList.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
-
     /* large dump to dom; async/setTimeout seems to increase speed of render */
     setTimeout(() => {
         usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
+        input.focus();
     });
 }
+
+let allRendered = true;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -57,11 +59,11 @@ function renderAllUsers() {
 button.addEventListener('click', filterUsers);
 
 function filterUsers() {
+    this.blur();
     if (input.value === '') {
-        renderAllUsers();
+        if (!allRendered) renderAllUsers();
     } else {
         try {
-
             /* pattern matching */
             let patterns = input.value.split(' '),
                 pattern,
@@ -94,20 +96,24 @@ function filterUsers() {
 
             /* load a chunk, then the rest */
             usersList.innerHTML = matches.slice(0, mld).join('');
-
             /* large dump to dom; async/setTimeout seems to increase speed of render */
             setTimeout(() => {
                 usersList.innerHTML += matches.slice(mld).join('');
             });
 
             if (matches.length === 0) {
-                renderAllUsers();
+                usersList.style.opacity = 0;
                 message.write('No matches... :(');
                 message.clear();
+                setTimeout(() => { alert(); usersList.style.opacity = 1; }, 1000);
             }
+
+            allRendered = false;
 
         } catch (err) {
             console.error(err);
         }
     }
+
+    input.focus();
 }

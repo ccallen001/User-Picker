@@ -3,26 +3,36 @@
 <html>
 
 <head>
+    <script async src="fetch_users.js"></script>
+    <link rel="stylesheet" href="user_picker.css" />
     <title>User Picker 1.0</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="user_picker.css" />
-    <script src="fetch_users.js"></script>
+    <link rel="icon" href="icon.png" />
 </head>
 
 <body>
-    <div class="left">
+
+    <div class="background"></div>
+
+    <a href="http://spendbridge.com/" target="_new" class="logo"></a>
+
+    <div class="left col">
         <div class="container">
             <h1>User Picker 1.0</h1>
-            <label>Search by Name, Email, Account</label>
-            <input /><button>search</button>
+            <label>Filter by Name, Email, or Account</label>
+            <input /><button>SEARCH</button>
         </div>
     </div>
-    <div class="right">
+
+    <div class="divider"></div>
+
+    <div class="right col">
         <ul class="users-list"></ul>
         <output class="message">message</output>
     </div>
-</body>
 
-<script src="render_users.js"></script>
+    <script src="render_users.js"></script>
+
+</body>
 
 </html>

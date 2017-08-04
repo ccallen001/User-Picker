@@ -1,6 +1,10 @@
 :root {
-    --bg-color: whitesmoke;
-    --color: #111;
+    --bg-color: #fbfbfb;
+    --color: #373737;
+    --blue: #1da1f2;
+    --green: #00f2aa;
+    --orange: #ffe4a4;
+    --shadow: rgba(0, 0, 0, .25);
 }
 
 html {
@@ -10,13 +14,14 @@ html {
 body {
     display: flex !important;
     height: 100%;
+    background: linear-gradient(to bottom right, var(--bg-color), var(--orange), var(--bg-color));
 }
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 
-/* standardization */
+/* standardize */
 
 a, body, button, div, footer, h1, h2, h3, h4, h5, h6, label, input, ul, li, nav, output, p, section, span {
     display: block;
@@ -24,8 +29,9 @@ a, body, button, div, footer, h1, h2, h3, h4, h5, h6, label, input, ul, li, nav,
     box-sizing: border-box;
     margin: 0 auto;
     padding: 0;
-    background-color: var(--bg-color);
+    /* background-color: var(--bg-color); */
     color: var(--color);
+    font-family: sans-serif;
     text-align: center;
     text-decoration: none;
     outline: none;
@@ -43,24 +49,148 @@ a, button {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.left {
-    display: flex;
-    flex: 1;
-    height: 100%
-}
 
-.left .container {
-    margin: auto;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("spendbridge.png") no-repeat center / 100%;
+    opacity: .05;
+    filter: blur(32px);
 }
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.right {
+.logo {
+    position: absolute;
+    top: 36px;
+    left: 36px;
+    z-index: 1002;
+    width: 64px;
+    height: 64px;
+    background: url("spendbridge.png") no-repeat center -2px / 105%;
+    border: 4px solid;
+    border-radius: 100%;
+    box-shadow: 0 2px 2px var(--shadow);
+    opacity: .85;
+    transition: all .05s;
+}
+
+.logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.col {
+    padding: 32px;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.left.col {
+    display: flex;
+    flex: 1;
+    height: 100%
+}
+
+
+/*----------------------------------------------------------------------------*/
+
+.left .container {
+    margin: auto;
+    transform: translateY(-45%);
+}
+
+
+/* user picker 1.0 */
+
+.left .container h1 {
+    display: inline-block;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    width: 95%;
+    font-size: 42px;
+    text-shadow: 0 1px 2px var(--shadow);
+    border-bottom: 1px solid;
+}
+
+.left .container label {
+    margin-bottom: 40px;
+    text-shadow: 0 1px 4px var(--shadow);
+}
+
+
+/*----------------------------------------------------------------------------*/
+
+.left .container input, .left .container button {
+    padding: 8px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid var(--color);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.left .container input {
+    width: 300px;
+    margin-right: 24px;
+}
+
+.left .container button {
+    padding: 8px 22px;
+    background-color: var(--blue);
+    color: var(--bg-color);
+    text-shadow: 0 1px 0 var(--color);
+    border-radius: 12px;
+    transition: background-color 250ms;
+}
+
+.left .container button:hover {
+    background-color: var(--green);
+}
+
+.left .container button:focus {
+    background-color: var(--green);
+}
+
+.left .container button:active {
+    transform: scale(.99);
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.divider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1001;
+    height: 80%;
+    border: 1px solid #111;
+    transform: translateY(-50%);
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.right.col {
     display: flex;
     flex: 1;
     height: 100%;
 }
+
+
+/*----------------------------------------------------------------------------*/
 
 .right .users-list {
     margin: auto;
@@ -69,15 +199,37 @@ a, button {
     overflow: auto;
 }
 
+.right .users-list li {
+    padding: 4px;
+    color: #111;
+    font-weight: bold;
+    text-shadow: 0 1px 32px white;
+}
+
+.right .users-list a {
+    color: #111;
+}
+
+.right .users-list a:hover {
+    color: white;
+    text-shadow: 0 1px 0 var(--color), 0 0 4px var(--shadow);
+}
+
+
+/*----------------------------------------------------------------------------*/
+
 .message {
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: -1;
     padding: 24px;
-    width: 40%;
-    background-color: var(--color);
-    color: var(--bg-color);
+    width: 75%;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 1px 0 black, 0 1px 2px var(--shadow);
     opacity: 0;
-    transform: translateX(-50%) translateY(-50%);
+    border-radius: 16px;
+    transform: translateX(-50%) translateY(-100%);
 }
