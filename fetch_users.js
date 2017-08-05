@@ -12,9 +12,13 @@ fetch('https://raw.githubusercontent.com/SpendBridge/exercises/master/data/users
     .catch(err => console.error(err));
 
 function addDataString(j) {
-    /* j = the fetched user data array */
+    /* j = the fetched users data array */
+
     global_l = j.length;
+    /* the length divided... greater the value, the smaller the initially rendered chunk */
     global_ld = Math.floor(global_l / 10);
+
+    /* setTimeouts to create ansynchronisity */
 
     setTimeout(() => {
         let i = 0;
@@ -40,5 +44,5 @@ function generateUsersArrHTML(j) {
 
     /* execution flows to render_users.js */
     if (renderAllUsers) renderAllUsers();
-    else console.error('renderAllUsers not defined yet')
+    else console.error('renderAllUsers function not yet defined')
 }

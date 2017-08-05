@@ -1,5 +1,5 @@
 /*
-// global vars set in fetch_users.js
+// global vars declared in fetch_users.js
 
 global_usersArr;
 global_usersArrHTML;
@@ -15,7 +15,7 @@ const input = document.querySelector('.left input'),
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* functions to control messaging */
+/* functions to control messaging to the user */
 
 message.write = msg => {
     message.style.zIndex = 1;
@@ -41,37 +41,45 @@ function m(data) {
 /* function to render all users in html */
 
 function renderAllUsers() {
-    /* load a chunk, then the rest */
-    usersList.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
-    /* large dump to dom; async/setTimeout seems to increase speed of render */
+    /* try not to block render/ui thread */
     setTimeout(() => {
-        usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
-        input.focus();
+        /* load a chunk, then the rest */
+        usersList.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
+        /* large dump to dom; async/setTimeout seems to increase speed of render */
+        setTimeout(() => {
+            usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
+            input.focus();
+        });
     });
 }
 
+/* flag to be used to control whether or not all users get rendered or not when user clicks search */
 let allRendered = true;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /* function to control search logic */
 
+/* bind search button listener/handler */
 button.addEventListener('click', filterUsers);
 
 function filterUsers() {
+    /* blur the button to remove the color (green) effect */
     this.blur();
     if (input.value === '') {
         if (!allRendered) renderAllUsers();
     } else {
+        /* try/catch block to handle any unforeseen regex errors */
         try {
-            /* pattern matching */
             let patterns = input.value.split(' '),
                 pattern,
                 allPatsMatch,
                 matches = [],
+                /* mld will be used as matched-patterns-length-divided for chunking */
                 mld,
                 i = 0;
 
+            /* single string of char(s) */
             if (patterns.length === 1) {
                 pattern = RegExp(patterns[0], 'i');
 
@@ -94,18 +102,20 @@ function filterUsers() {
 
             mld = matches.length / 10;
 
-            /* load a chunk, then the rest */
-            usersList.innerHTML = matches.slice(0, mld).join('');
-            /* large dump to dom; async/setTimeout seems to increase speed of render */
             setTimeout(() => {
-                usersList.innerHTML += matches.slice(mld).join('');
+                /* load a chunk, then the rest */
+                usersList.innerHTML = matches.slice(0, mld).join('');
+                /* large dump to dom; async/setTimeout seems to increase speed of render */
+                setTimeout(() => {
+                    usersList.innerHTML += matches.slice(mld).join('');
+                });
             });
 
             if (matches.length === 0) {
                 usersList.style.opacity = 0;
                 message.write('No matches... :(');
                 message.clear();
-                setTimeout(() => { alert(); usersList.style.opacity = 1; }, 1000);
+                setTimeout(() => { usersList.style.opacity = 1; }, 1000);
             }
 
             allRendered = false;
