@@ -60,7 +60,7 @@ let allRendered = true;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* function to control search logic */
+/* function to control search/filter logic */
 
 /* bind listeners/handler */
 input.addEventListener('keydown', ev => { if (ev.keyCode === 13) filterUsers(); });

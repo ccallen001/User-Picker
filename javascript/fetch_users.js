@@ -2,7 +2,7 @@ let global_usersArr = [],
     global_usersArrHTML = [],
     global_l,
     global_ld,
-    /* functions made global for hosting */
+    /* functions made global for app hosting */
     m,
     renderAllUsers;
 
@@ -45,7 +45,17 @@ function generateUsersArrHTML(j) {
         i++;
     }
 
-    /* execution flows to render_users.js */
-    if (renderAllUsers) renderAllUsers();
-    else console.error('renderAllUsers function not yet defined')
+    /* recursive checking/calling of renderAllUsers */
+    let called = 0;
+    (function callRenderAllUsers() {
+        if (renderAllUsers || called > 1000) {
+            /* execution flows to render_users.js */
+            if (called <= 1000) renderAllUsers();
+            else console.error('renderAllUsers not defined');
+            return;
+        } else {
+            called++;
+            callRenderAllUsers();
+        }
+    })();
 }
