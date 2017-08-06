@@ -63,7 +63,8 @@ let allRendered = true;
 /* function to control search logic */
 
 /* bind listeners/handler */
-[input, button].forEach(el => el.addEventListener('click', filterUsers));
+input.addEventListener('keydown', ev => { if (ev.keyCode === 13) filterUsers(); });
+button.addEventListener('click', filterUsers);
 
 function filterUsers() {
     /* blur the button to remove the color (green) effect */

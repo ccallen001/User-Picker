@@ -14,11 +14,11 @@ html {
 body {
     display: flex !important;
     height: 100%;
-    background: linear-gradient(to bottom right, var(--bg-color), var(--orange), var(--bg-color));
+    background: linear-gradient( to bottom right, var(--bg-color), var(--orange), var(--bg-color)) no-repeat;
 }
 
 
-/* responsiveness */
+/* responsive considerations */
 
 @media screen and (max-width: 800px) {
     body {
@@ -26,6 +26,13 @@ body {
     }
     body .left.col {
         background-color: var(--orange);
+    }
+    body .left .container {
+        margin: 25vh auto;
+        transform: translateY(0);
+    }
+    body .left .container button {
+        margin-top: 8px;
     }
     body .divider {
         display: none;
@@ -47,7 +54,6 @@ a, body, button, div, h1, label, input, ul, li, output {
     box-sizing: border-box;
     margin: 0 auto;
     padding: 0;
-    /* background-color: var(--bg-color); */
     color: var(--color);
     font-family: sans-serif;
     text-align: center;
@@ -120,22 +126,21 @@ Begin styling
     /* display: flex; */
     flex: 1;
     height: 100%;
+    min-height: 528px;
 }
 
 
 /*----------------------------------------------------------------------------*/
 
-
-/* ui on the left... the search filter */
-
 .left .container {
-    margin: 25vh auto;
+    margin: 50% auto;
     padding: 44px 0;
     width: 80%;
     min-width: 300px;
     background-color: rgba(255, 255, 255, .5);
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+    transform: translateY(-50%);
 }
 
 
@@ -159,11 +164,13 @@ Begin styling
 
 /*----------------------------------------------------------------------------*/
 
+
+/* the search filter and button */
+
 .left .container input, .left .container button {
     padding: 8px;
     height: 40px;
     font-size: 14px;
-    font-weight: bold;
     border: 1px solid var(--color);
     border-radius: 8px;
     box-shadow: 0 2px 6px var(--shadow);
@@ -178,6 +185,7 @@ Begin styling
     padding: 8px 22px;
     background-color: var(--blue);
     color: var(--bg-color);
+    font-weight: bold;
     text-shadow: 0 1px 0 var(--color);
     border-radius: 12px;
     transition: background-color 250ms;
@@ -225,6 +233,7 @@ Begin styling
 .right .users-list {
     margin: auto;
     width: 95%;
+    min-width: 200px;
     max-height: 100%;
     overflow: auto;
 }
@@ -235,7 +244,8 @@ Begin styling
 
 .right .users-list li {
     padding: 4px;
-    font-weight: bold;
+    color: #111;
+    /* font-weight: bold; */
     text-shadow: 0 1px 32px white;
 }
 
