@@ -1,7 +1,10 @@
 let global_usersArr = [],
     global_usersArrHTML = [],
     global_l,
-    global_ld;
+    global_ld,
+    /* functions made global for hosting */
+    m,
+    renderAllUsers;
 
 fetch('https://raw.githubusercontent.com/SpendBridge/exercises/master/data/users.json')
     .then(r => r.json())

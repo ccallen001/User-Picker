@@ -77,20 +77,6 @@ Begin styling
 
 ----------------------------------------------------------------------------------------------------------------------*/
 
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("spendbridge.png") no-repeat center / 100%;
-    opacity: .05;
-    filter: blur(32px);
-}
-
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 .logo {
     position: absolute;
     top: 36px;
@@ -98,7 +84,7 @@ Begin styling
     z-index: 1002;
     width: 64px;
     height: 64px;
-    background: url("spendbridge.png") no-repeat center -2px / 110%;
+    background: url("../images/spendbridge.png") no-repeat center -2px / 110%;
     border: 4px solid;
     border-radius: 100%;
     box-shadow: 0 2px 2px var(--shadow);
@@ -113,6 +99,9 @@ Begin styling
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+
+/* left and right cols/sides */
 
 .col {
     padding: 32px;
@@ -132,12 +121,28 @@ Begin styling
 
 /*----------------------------------------------------------------------------*/
 
+
+/* background image of users */
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../images/users.png") no-repeat center / 110%;
+    opacity: .1;
+}
+
+
+/*----------------------------------------------------------------------------*/
+
 .left .container {
     margin: 50% auto;
     padding: 44px 0;
     width: 80%;
     min-width: 300px;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, .95);
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .75);
     transform: translateY(-50%);

@@ -30,7 +30,8 @@ message.clear = timeout => {
     }, timeout || 1500);
 };
 
-function m(data) {
+/* when clicking on the users emails/accounts */
+m = data => {
     let type = /@/.test(data) ? 'email' : 'account';
     message.write(`You clicked ${type} ${data}`);
     message.clear();
@@ -39,8 +40,7 @@ function m(data) {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /* function to render all users in html */
-
-function renderAllUsers() {
+renderAllUsers = () => {
     message.write("Loading users...");
     /* try not to block render/ui thread */
     setTimeout(() => {
