@@ -17,15 +17,21 @@ body {
     background: linear-gradient(to bottom right, var(--bg-color), var(--orange), var(--bg-color));
 }
 
+
+/* responsiveness */
+
 @media screen and (max-width: 800px) {
     body {
         flex-direction: column;
     }
-    body .left .container {
-        transform: translateY(0);
+    body .left.col {
+        background-color: var(--orange);
     }
     body .divider {
         display: none;
+    }
+    body .right.col {
+        background-color: var(--bg-color);
     }
 }
 
@@ -33,7 +39,7 @@ body {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 
-/* standardize */
+/* standardize elements */
 
 a, body, button, div, h1, label, input, ul, li, output {
     display: block;
@@ -59,10 +65,11 @@ a, button {
 }
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------
 
+Begin styling
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------------------------*/
 
 .background {
     position: absolute;
@@ -110,27 +117,29 @@ a, button {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .left.col {
-    display: flex;
+    /* display: flex; */
     flex: 1;
-    height: 100%
+    height: 100%;
 }
 
 
 /*----------------------------------------------------------------------------*/
 
+
+/* ui on the left... the search filter */
+
 .left .container {
-    margin: auto;
+    margin: 25vh auto;
     padding: 44px 0;
     width: 80%;
     min-width: 300px;
     background-color: rgba(255, 255, 255, .5);
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .75);
-    transform: translateY(-20%);
 }
 
 
-/* user picker 1.0 */
+/* User Picker 1.0 */
 
 .left .container h1 {
     display: inline-block;

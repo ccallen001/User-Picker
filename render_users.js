@@ -7,7 +7,7 @@ global_l;
 global_ld;
 */
 
-/* dom vars */
+/* dom elements */
 const input = document.querySelector('.left input'),
     button = document.querySelector('.left button'),
     usersList = document.getElementsByClassName('users-list')[0],
@@ -15,7 +15,7 @@ const input = document.querySelector('.left input'),
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* functions to control messaging to the user */
+/* functions to control messaging */
 
 message.write = msg => {
     message.style.zIndex = 1;
@@ -41,6 +41,7 @@ function m(data) {
 /* function to render all users in html */
 
 function renderAllUsers() {
+    message.write("Loading users...");
     /* try not to block render/ui thread */
     setTimeout(() => {
         /* load a chunk, then the rest */
@@ -48,6 +49,7 @@ function renderAllUsers() {
         /* large dump to dom; async/setTimeout seems to increase speed of render */
         setTimeout(() => {
             usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
+            message.clear(0);
             input.focus();
         });
     });
@@ -60,8 +62,8 @@ let allRendered = true;
 
 /* function to control search logic */
 
-/* bind search button listener/handler */
-button.addEventListener('click', filterUsers);
+/* bind listeners/handler */
+[input, button].forEach(el => el.addEventListener('click', filterUsers));
 
 function filterUsers() {
     /* blur the button to remove the color (green) effect */
@@ -102,20 +104,20 @@ function filterUsers() {
 
             mld = matches.length / 10;
 
-            setTimeout(() => {
-                /* load a chunk, then the rest */
-                usersList.innerHTML = matches.slice(0, mld).join('');
-                /* large dump to dom; async/setTimeout seems to increase speed of render */
-                setTimeout(() => {
-                    usersList.innerHTML += matches.slice(mld).join('');
-                });
-            });
-
             if (matches.length === 0) {
-                usersList.style.opacity = 0;
+                usersList.style.opacity = .25;
                 message.write('No matches... :(');
                 message.clear();
                 setTimeout(() => { usersList.style.opacity = 1; }, 1000);
+            } else {
+                setTimeout(() => {
+                    /* load a chunk, then the rest */
+                    usersList.innerHTML = matches.slice(0, mld).join('');
+                    /* large dump to dom; async/setTimeout seems to increase speed of render */
+                    setTimeout(() => {
+                        usersList.innerHTML += matches.slice(mld).join('');
+                    });
+                });
             }
 
             allRendered = false;
