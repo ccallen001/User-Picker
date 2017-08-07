@@ -1,10 +1,7 @@
 let global_usersArr = [],
     global_usersArrHTML = [],
     global_l,
-    global_ld,
-    /* functions made global for app hosting */
-    m,
-    renderAllUsers;
+    global_ld;
 
 fetch('https://raw.githubusercontent.com/SpendBridge/exercises/master/data/users.json')
     .then(r => r.json())
@@ -45,17 +42,6 @@ function generateUsersArrHTML(j) {
         i++;
     }
 
-    /* recursive checking/calling of renderAllUsers */
-    let called = 0;
-    (function callRenderAllUsers() {
-        if (renderAllUsers || called > 1000) {
-            /* execution flows to render_users.js */
-            if (called <= 1000) renderAllUsers();
-            else console.error('renderAllUsers not defined');
-            return;
-        } else {
-            called++;
-            callRenderAllUsers();
-        }
-    })();
+    if (renderAllUsers) renderAllUsers();
+    else console.error('renderAllUsers not defined - Please refresh the page');
 }

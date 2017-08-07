@@ -31,7 +31,7 @@ message.clear = timeout => {
 };
 
 /* when clicking on the users emails/accounts */
-m = data => {
+function m() {
     let type = /@/.test(data) ? 'email' : 'account';
     message.write(`You clicked ${type} ${data}`);
     message.clear();
@@ -40,7 +40,7 @@ m = data => {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /* function to render all users in html */
-renderAllUsers = () => {
+function renderAllUsers() {
     message.write("Loading users...");
     /* try not to block render/ui thread */
     setTimeout(() => {
@@ -49,7 +49,7 @@ renderAllUsers = () => {
         /* large dump to dom; async/setTimeout seems to increase speed of render */
         setTimeout(() => {
             usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
-            message.clear(0);
+            message.clear(100);
             input.focus();
         });
     });
