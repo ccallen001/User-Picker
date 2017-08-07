@@ -42,6 +42,17 @@ function generateUsersArrHTML(j) {
         i++;
     }
 
-    if (renderAllUsers) renderAllUsers();
-    else console.error('renderAllUsers not defined - Please refresh the page');
+    /* check and recurse to see if renderAllUsers exists and can be called */
+    (function callRenderAllUsers() {
+        if (!renderAllUsers) {
+            if (callRenderAllUsers.called) {
+                console.error('renderAllUsers not defined - Please refresh to try again');
+            } else {
+                callRenderAllUsers.called = true;
+                setTimeout(callRenderAllUsers, 1000);
+            }
+        } else {
+            renderAllUsers();
+        }
+    })();
 }

@@ -23,15 +23,17 @@ message.write = msg => {
     message.textContent = msg;
 }
 
+let messageTimeout;
 message.clear = timeout => {
-    setTimeout(() => {
+    clearTimeout(messageTimeout);
+    messageTimeout = setTimeout(() => {
         message.style.zIndex = -1;
         message.style.opacity = 0;
     }, timeout || 1500);
 };
 
 /* when clicking on the users emails/accounts */
-function m() {
+function m(data) {
     let type = /@/.test(data) ? 'email' : 'account';
     message.write(`You clicked ${type} ${data}`);
     message.clear();
