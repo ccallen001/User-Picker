@@ -75,10 +75,13 @@ function renderAllUsers() {
 /* handler function to control search/filter logic */
 
 /* bind listeners/handler */
-input.addEventListener('keydown', ev => { if (ev.keyCode === 13) filterUsers(); });
-button.addEventListener('click', filterUsers);
+input.addEventListener("keydown", ev => {
+    if (ev.keyCode === 13) filterUsers.call(button);
+});
+button.addEventListener("click", filterUsers);
 
 function filterUsers() {
+	/* this = button */;
     this.blur();
     if (input.value === '') {
         if (!renderAllUsers.rendered) renderAllUsers();
