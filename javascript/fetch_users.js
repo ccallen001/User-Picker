@@ -1,3 +1,11 @@
+/*
+fetch_users.js
+
+fetch users, build global lists for searching/filtering and rendering
+*/
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 let global_usersArr = [],
     global_usersArrHTML = [],
     global_l,
@@ -15,7 +23,7 @@ function addDataString(j) {
     /* j = the fetched users data array */
 
     global_l = j.length;
-    /* the length divided... greater the value, the smaller the initially rendered chunk */
+    /* length divided... greater the value, the smaller the initially rendered chunk will be */
     global_ld = Math.floor(global_l / 10);
 
     /* setTimeouts to create ansynchronisity */
@@ -27,7 +35,7 @@ function addDataString(j) {
             i++;
         }
 
-        /* set global array of users */
+        /* set global array of users with added data string */
         global_usersArr = j;
     });
 
@@ -36,13 +44,14 @@ function addDataString(j) {
 
 function generateUsersArrHTML(j) {
     /* build the html version of the global users array */
+    /* m handler is defined in render_users.js */
     let i = 0;
     while (i < global_l) {
         global_usersArrHTML[i] = `<li>${j[i].fullName}, <a onclick="m('${j[i].email}')">${j[i].email}</a>, ${j[i].accountName}, <a onclick="m('${j[i].accountName}')">${j[i].accountNumber}</a></li>`;
         i++;
     }
 
-    /* check and recurse to see if renderAllUsers exists and can be called */
+    /* check to ensure renderAllUsers func exists, if not -> recursive call after 1sec and error handling */
     (function callRenderAllUsers() {
         if (!renderAllUsers) {
             if (callRenderAllUsers.called) {
@@ -52,6 +61,7 @@ function generateUsersArrHTML(j) {
                 setTimeout(callRenderAllUsers, 1000);
             }
         } else {
+            /* execution flows to render_users.js */
             renderAllUsers();
         }
     })();

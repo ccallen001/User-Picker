@@ -1,13 +1,24 @@
 /*
-// global vars declared in fetch_users.js
+render_users.js
 
-global_usersArr;
-global_usersArrHTML;
-global_l;
-global_ld;
+once searchable and html lists have been built,
+define messaging capabilities,
+render users list in html 
+
+---
+
+global vars declared in fetch_users.js:
+
+global_usersArr
+global_usersArrHTML
+global_l
+global_ld
 */
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /* dom elements */
+
 const input = document.querySelector('.left input'),
     button = document.querySelector('.left button'),
     usersList = document.getElementsByClassName('users-list')[0],
@@ -32,7 +43,7 @@ message.clear = timeout => {
     }, timeout || 1500);
 };
 
-/* when clicking on the users emails/accounts */
+/* when clicking on the users' emails/accounts */
 function m(data) {
     let type = /@/.test(data) ? 'email' : 'account';
     message.write(`You clicked ${type} ${data}`);
@@ -44,35 +55,33 @@ function m(data) {
 /* function to render all users in html */
 function renderAllUsers() {
     message.write("Loading users...");
-    /* try not to block render/ui thread */
+    /* try not to block the render/ui thread in the browser */
     setTimeout(() => {
-        /* load a chunk, then the rest */
+        /* load a chunkfirst , then the rest */
         usersList.innerHTML = global_usersArrHTML.slice(0, global_ld).join('');
-        /* large dump to dom; async/setTimeout seems to increase speed of render */
+        /* large dump to the dom; async/setTimeout seems to increase speed of render */
         setTimeout(() => {
             usersList.innerHTML += global_usersArrHTML.slice(global_ld).join('');
             message.clear(100);
             input.focus();
         });
     });
+    /* flag to be used to control whether or not all users get rendered or not when user clicks search */
+    renderAllUsers.rendered = true;
 }
-
-/* flag to be used to control whether or not all users get rendered or not when user clicks search */
-let allRendered = true;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/* function to control search/filter logic */
+/* handler function to control search/filter logic */
 
 /* bind listeners/handler */
 input.addEventListener('keydown', ev => { if (ev.keyCode === 13) filterUsers(); });
 button.addEventListener('click', filterUsers);
 
 function filterUsers() {
-    /* blur the button to remove the color (green) effect */
     this.blur();
     if (input.value === '') {
-        if (!allRendered) renderAllUsers();
+        if (!renderAllUsers.rendered) renderAllUsers();
     } else {
         /* try/catch block to handle any unforeseen regex errors */
         try {
@@ -80,12 +89,12 @@ function filterUsers() {
                 pattern,
                 allPatsMatch,
                 matches = [],
-                /* mld will be used as matched-patterns-length-divided for chunking */
+                /* mld will be used as matched-patterns-length-divided for purposes of chunking */
                 mld,
                 i = 0;
 
-            /* single string of char(s) */
             if (patterns.length === 1) {
+                /* if single string of char(s) */
                 pattern = RegExp(patterns[0], 'i');
 
                 while (i < global_l) {
@@ -93,6 +102,7 @@ function filterUsers() {
                     i++;
                 }
             } else {
+                /* if space delimited groups of chars */
                 patterns = patterns.map(pat => RegExp(pat, 'i'));
 
                 while (i < global_l) {
@@ -108,6 +118,7 @@ function filterUsers() {
             mld = matches.length / 10;
 
             if (matches.length === 0) {
+                /* if no matches */
                 usersList.style.opacity = .25;
                 message.write('No matches... :(');
                 message.clear();
@@ -123,7 +134,7 @@ function filterUsers() {
                 });
             }
 
-            allRendered = false;
+            renderAllUsers.rendered = false;
 
         } catch (err) {
             console.error(err);
